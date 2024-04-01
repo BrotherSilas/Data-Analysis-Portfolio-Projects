@@ -197,11 +197,16 @@ ORDER BY 1, 2, 3
 
 -- Creating view to store data for later
 
-Create View RollingPeopleVaccinatedPercentage
+Create View
+	RollingPeopleVaccinatedPercentage1 AS
 SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, SUM(CAST(vac.new_vaccinations as float)) OVER (Partition by dea.location Order by dea.location) AS RollingPeopleVaccinated
 From [Silas Edet portfolio project]..CovidDeaths as dea
 JOIN [Silas Edet portfolio project]..CovidVaccinations as vac
 	ON dea.location = vac.location
 	and dea.date = vac.date
 	WHERE dea.continent IS NOT NULL
-ORDER BY 2, 3
+-- ORDER BY 2, 3
+
+-- Testing the newly created View
+Select *
+from RollingPeopleVaccinatedPercentage1
